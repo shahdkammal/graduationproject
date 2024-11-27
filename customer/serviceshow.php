@@ -83,7 +83,7 @@ include 'includes/navbar.php';
                         $service_name = $row['service_name'];
                         
             ?>
-                        <button type="button" class="btn btn-outline-c1-1"><?php echo $service_name ?></button></a>
+                        <button type="button" class="btn btn-outline-c1-1"><?php echo $service_name ?></button>
                         
             <?php
                     }
