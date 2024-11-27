@@ -16,6 +16,9 @@ if (!isset($_SESSION['username'])) {
 }
 $logged_in_username = $_SESSION['username'];
 
+
+
+
 // Fetch previous orders for the logged-in user
 $sql = "SELECT service_title FROM user_order WHERE order_id = ?";
 $stmt = $conn->prepare($sql);
@@ -30,7 +33,17 @@ $user_stmt->bind_param("s", $logged_in_username);
 $user_stmt->execute();
 $user_result = $user_stmt->get_result();
 $user_data = $user_result->fetch_assoc();
+
+
 ?>
+
+
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,19 +78,71 @@ $user_data = $user_result->fetch_assoc();
 </head>
 <body>
     
-    <h1>User Profile</h1>
-
-    <!-- Display Username -->
-    <div class="profile-header">
-        <p><strong>Username:</strong> <?php echo htmlspecialchars($logged_in_username); ?></p>
-    </div>
+    
+    
     <div class="container">
         <br>
         <br>
-
-
-
         <?php
+        $user_query = "SELECT login_id FROM login WHERE username = ?";
+$user_stmt = $conn->prepare($user_query);
+$user_stmt->bind_param("s", $logged_in_username);
+$user_stmt->execute();
+$user_result = $user_stmt->get_result();
+$user_data = $user_result->fetch_assoc();
+if ($user_data) { $login_id = $user_data['login_id'];
+       
+       $address_query = "SELECT address, first_name, last_name, phone, email FROM customer WHERE login_id = ?";
+        $address_stmt = $conn->prepare($address_query); 
+        $address_stmt->bind_param("i", $login_id); 
+        $address_stmt->execute();
+         $address_result = $address_stmt->get_result();
+          $address_data = $address_result->fetch_assoc(); 
+          if ($address_data) { $address = $address_data['address'];
+             $first_name = $address_data['first_name'];
+              $last_name = $address_data['last_name'];
+               $phone = $address_data['phone'];
+                $email = $address_data['email'];
+                
+                } else { echo "No user data found in customer table for login ID: " . $login_id . "<br>";
+                 } } else { echo "No login ID found for username: " . $logged_in_username . "<br>";
+                 }
+
+
+                 ?>
+   
+    <div class="container mt-5"> 
+        <div class="profile-header">
+             <h2>User Profile</h2>
+              <p><strong>First Name:</strong>
+               <?php echo htmlspecialchars($first_name); ?>
+            </p> <p><strong>Last Name:</strong> 
+            <?php echo htmlspecialchars($last_name); 
+            ?></p>
+             <p><strong>Address:</strong>
+              <?php echo htmlspecialchars($address);
+               ?></p>
+                <p><strong>Phone:</strong> 
+                <?php echo htmlspecialchars($phone);
+                 ?></p>
+                  <p><strong>Email:</strong> 
+                  <?php echo htmlspecialchars($email); 
+                  ?></p>
+                   </div> 
+                   <div class="change-password mt-5">
+                     <h2>Change Password</h2> 
+                     <form action="change_password.php" method="POST"> 
+                        <div class="form-group"> <label for="current_password">Current Password</label> 
+                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                     </div>
+                      <div class="form-group"> <label for="new_password">New Password</label> <input type="password" class="form-control" id="new_password" name="new_password" required>
+                     </div>
+                      <div class="form-group"> <label for="confirm_password">Confirm New Password</label> <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                     </div>
+                      <button type="submit" class="btn btn-primary">Change Password</button>
+                     </form> 
+                    </div>
+                    <?php
         $customer_id = $_SESSION['customer_id'];
         $query1 = "SELECT * FROM `order_master` WHERE `customer_id` = $customer_id ORDER BY order_id DESC";
         $result1 = mysqli_query($conn, $query1);
@@ -227,36 +292,12 @@ $user_data = $user_result->fetch_assoc();
 } // End of if $result1
 ?>
 
-        
-
-       
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <?php
  
     ?>
-    
 
 
 </body>

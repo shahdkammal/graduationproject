@@ -113,7 +113,7 @@ if (!defined('MYSITE')) {
                     }
                 ?>
                 
-                <a href="../hs/mycart.php"><img src="img/shopping-cart-icon.png" style="width:50px;" alt=""></a>
+                <a href="../BCA-home-Services-Project/mycart.php"><img src="img/shopping-cart-icon.png" style="width:50px;" alt=""></a>
                 <!-- <a href="../hs/mycart.php"><i class="fas fa-2x fa-shopping-cart mr-2" style="color:white;"></i></a> -->
             </div>
 

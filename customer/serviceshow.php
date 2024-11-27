@@ -70,7 +70,7 @@ include 'includes/navbar.php';
     <div class="bg-white sticky-top">
         <div class="container mb-3 py-4">
 
-
+<!-- categories boxes types in service section -->
             <?php
             //fetch service name
             $sql = "SELECT * FROM `service` WHERE category_id = $category_id";
@@ -81,9 +81,10 @@ include 'includes/navbar.php';
                     while ($row = mysqli_fetch_assoc($result)) {
                         $service_id = $row['service_id'];
                         $service_name = $row['service_name'];
-                        // <a href="serviceshow.php?service_id=' . $service_id . '&service_name=' . $service_name . '"><button type="button" class="btn btn-outline-c1-1">' . $service_name . '</button></a>
+                        
             ?>
-                        <a href="serviceshow.php?serviceid=<?php echo $service_id ?>"><button type="button" class="btn btn-outline-c1-1"><?php echo $service_name ?></button></a>
+                        <button type="button" class="btn btn-outline-c1-1"><?php echo $service_name ?></button></a>
+                        
             <?php
                     }
                 }
